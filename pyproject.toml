@@ -1,0 +1,16 @@
+[project]
+name = "4-holes"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.14"
+dependencies = [
+    "shapely",
+    "pandas",
+    "matplotlib",
+    "tqdm",
+    "more_itertools",
+    "click"
+]
+
+[project.scripts]
+fourholes = "fourholes.main:main"
