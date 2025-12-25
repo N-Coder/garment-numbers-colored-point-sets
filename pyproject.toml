@@ -12,5 +12,11 @@ dependencies = [
     "click"
 ]
 
+[project.optional-dependencies]
+render = [
+    "cppyy"
+]
+
 [project.scripts]
 fourholes = "fourholes.main:main"
+fourholes-render = "fourholes.ipe.main:main"

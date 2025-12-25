@@ -1,27 +1,32 @@
 from collections import defaultdict
-from typing import List, Tuple
+from typing import List, Tuple, TypeAlias
 
 from shapely import MultiPolygon, Polygon
 
+from fourholes.lib import *
+
+RawColoredPointSet: TypeAlias = List[Tuple[Point, str]]
+
 __all__ = [
-    "partition_points", "load_points_from_csv", "write_points_to_csv", "plot_polygon", "minimize", "bounding_box"
+    "partition_points", "load_points_from_csv", "write_points_to_csv", "plot_polygon", "minimize", "bounding_box",
+    "RawColoredPointSet"
 ]
 
 
-def partition_points(points) -> dict[str, list]:
+def load_points_from_csv(path) -> RawColoredPointSet:
+    import pandas as pd
+
+    return [((row[0], row[1]), row[2]) for (idx, row) in pd.read_csv(path, header=None).iterrows()]
+
+
+def partition_points(points: RawColoredPointSet) -> PartitionedPointSet:
     parts = defaultdict(list)
     for p, c in points:
         parts[c.strip()].append(p)
     return parts
 
 
-def load_points_from_csv(path) -> List[Tuple[Tuple[int, int], str]]:
-    import pandas as pd
-
-    return [((row[0], row[1]), row[2]) for (idx, row) in pd.read_csv(path, header=None).iterrows()]
-
-
-def write_points_to_csv(parts, file):
+def write_points_to_csv(parts: PartitionedPointSet, file):
     import csv
 
     w = csv.writer(file)
@@ -29,7 +34,7 @@ def write_points_to_csv(parts, file):
         w.writerows((*p, c) for p in ps)
 
 
-def plot_polygon(ax: 'matplotlib.Axes', polygon: Polygon, points=None, color: str = '#6699cc'):
+def plot_polygon(ax: 'matplotlib.Axes', polygon: Polygon, points: PointSet = None, color: str = '#6699cc'):
     # merged = polygon.buffer(0.00001).buffer(-0.00001)
     merged = polygon
     parts = merged.geoms if isinstance(merged, MultiPolygon) else [merged]
@@ -43,7 +48,7 @@ def plot_polygon(ax: 'matplotlib.Axes', polygon: Polygon, points=None, color: st
         ax.scatter(px, py, color=color, zorder=3)
 
 
-def minimize(parts, only):
+def minimize(parts: PartitionedPointSet, only: FilterList):
     from fourholes.lib import find_empty_monochromatic_substructures
     from tqdm import tqdm
 
@@ -56,7 +61,7 @@ def minimize(parts, only):
     return None, None, None
 
 
-def bounding_box(points: list[tuple[tuple[int, int], str]]) -> tuple[int, int, int, int]:
+def bounding_box(points: RawColoredPointSet) -> tuple[float, float, float, float]:
     min_x = min(p[0][0] for p in points)
     max_x = max(p[0][0] for p in points)
     min_y = min(p[0][1] for p in points)
