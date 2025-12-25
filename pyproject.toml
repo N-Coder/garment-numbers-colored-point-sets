@@ -1,7 +1,7 @@
 [project]
-name = "4-holes"
+name = "garment-numbers-colored-point-sets"
 version = "0.1.0"
-description = "Add your description here"
+description = "GuARanteed Monochromatic Empty Not-quite-order Type numbers of bichromatic point sets"
 requires-python = ">=3.14"
 dependencies = [
     "shapely",
@@ -18,5 +18,5 @@ render = [
 ]
 
 [project.scripts]
-fourholes = "fourholes.main:main"
-fourholes-render = "fourholes.ipe.main:main"
+garment = "garment_nrs.main:main"
+garment-render = "garment_nrs.ipe.main:main"

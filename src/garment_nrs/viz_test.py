@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
-from fourholes.lib import *
-from fourholes.util import *
+from garment_nrs.lib import *
+from garment_nrs.util import *
 
 for name, quad in [
     ("nonconvex", [(0, 0), (1, 1), (0, 2), (0.5, 1)]),

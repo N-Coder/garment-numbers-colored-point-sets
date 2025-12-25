@@ -2,8 +2,8 @@ from itertools import combinations, pairwise
 
 import click
 
-from fourholes.ipe.lib import *
-from fourholes.util import *
+from garment_nrs.ipe.lib import *
+from garment_nrs.util import *
 
 
 @click.command()

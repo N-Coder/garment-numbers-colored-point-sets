@@ -5,8 +5,8 @@ import sys
 import click
 from tqdm import tqdm
 
-from fourholes.lib import CONVEX_SHAPES, NONCONVEX_SHAPES, find_empty_monochromatic_substructures
-from fourholes.util import *
+from garment_nrs.lib import CONVEX_SHAPES, NONCONVEX_SHAPES, find_empty_monochromatic_substructures
+from garment_nrs.util import *
 
 
 @click.command()

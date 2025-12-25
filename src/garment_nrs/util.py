@@ -3,7 +3,7 @@ from typing import List, Tuple, TypeAlias
 
 from shapely import MultiPolygon, Polygon
 
-from fourholes.lib import *
+from garment_nrs.lib import *
 
 RawColoredPointSet: TypeAlias = List[Tuple[Point, str]]
 
@@ -49,7 +49,6 @@ def plot_polygon(ax: 'matplotlib.Axes', polygon: Polygon, points: PointSet = Non
 
 
 def minimize(parts: PartitionedPointSet, only: FilterList):
-    from fourholes.lib import find_empty_monochromatic_substructures
     from tqdm import tqdm
 
     for c, ps in parts.items():
