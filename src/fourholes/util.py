@@ -4,7 +4,7 @@ from typing import List, Tuple
 from shapely import MultiPolygon, Polygon
 
 __all__ = [
-    "partition_points", "load_points_from_csv", "write_points_to_csv", "plot_polygon", "minimize"
+    "partition_points", "load_points_from_csv", "write_points_to_csv", "plot_polygon", "minimize", "bounding_box"
 ]
 
 
@@ -54,3 +54,11 @@ def minimize(parts, only):
             if not mcss:
                 return c, i, inst
     return None, None, None
+
+
+def bounding_box(points: list[tuple[tuple[int, int], str]]) -> tuple[int, int, int, int]:
+    min_x = min(p[0][0] for p in points)
+    max_x = max(p[0][0] for p in points)
+    min_y = min(p[0][1] for p in points)
+    max_y = max(p[0][1] for p in points)
+    return min_x, max_x, min_y, max_y

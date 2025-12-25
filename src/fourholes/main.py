@@ -62,10 +62,7 @@ def main(file, only, minimal, add, plot):
         if found:
             tqdm.write(f"Cannot add anything as points already do contain {found} substructures")
             return
-        min_x = min(p[0][0] for p in points)
-        max_x = max(p[0][0] for p in points)
-        min_y = min(p[0][1] for p in points)
-        max_y = max(p[0][1] for p in points)
+        min_x, max_x, min_y, max_y = bounding_box(points)
         delta_x = max_x - min_x
         delta_y = max_y - min_y
         p = ((
