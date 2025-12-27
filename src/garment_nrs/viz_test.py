@@ -4,7 +4,7 @@ from garment_nrs.lib import *
 from garment_nrs.util import *
 
 for name, quad in [
-    ("nonconvex", [(0, 0), (1, 1), (0, 2), (0.5, 1)]),
+    ("nonconvex", [(0, 0), (2, 1), (0, 2), (1, 1)]),
     ("convex", [(0, 0), (1, 1), (0, 1), (1, 0)]),
 ]:
     count = 0
@@ -12,7 +12,10 @@ for name, quad in [
         count += 1
         print("\t", name, count, type, struct)
         fig, ax = plt.subplots()
-        plot_polygon(ax, struct)
+        plot_polygon(ax, struct, points=quad)
+        ax.axis('off')
         ax.set_aspect('equal')
-        plt.savefig(f"{name}-{type}-{count}.png")
+        fig.patch.set_alpha(0)
+        ax.patch.set_alpha(0)
+        plt.savefig(f"{name}-{type}-{count}.png", bbox_inches='tight', pad_inches=0, transparent=True)
         plt.close(fig)
