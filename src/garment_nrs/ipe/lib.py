@@ -32,8 +32,8 @@ def set_properties(obj, kwargs):
             continue
         setter = getattr(obj, "set" + prop[0].capitalize() + prop[1:])
         if isinstance(val,
-                        (ipe.Color, ipe.TFillRule, ipe.THorizontalAlignment, ipe.TLineCap, ipe.TLineJoin, ipe.TPathMode,
-                         ipe.TPinned, ipe.TSplineType, ipe.TTransformations)):
+                      (ipe.Color, ipe.TFillRule, ipe.THorizontalAlignment, ipe.TLineCap, ipe.TLineJoin, ipe.TPathMode,
+                       ipe.TPinned, ipe.TSplineType, ipe.TTransformations)):
             setter(ipe.Attribute(val))
         elif isinstance(val, str):
             setter(ipe.Attribute(symbolic=True, name=val))

@@ -54,7 +54,7 @@ def minimize(parts: PartitionedPointSet, only: FilterList):
     for c, ps in parts.items():
         for i in tqdm(range(len(ps)), desc=f"Minimizing {c} points"):
             inst = dict([*parts.items(), (c, ps[:i] + ps[i + 1:])])
-            mcss = any(find_empty_monochromatic_substructures(inst, only))
+            mcss = any(find_empty_monochromatic_structures(inst, only))
             if not mcss:
                 return c, i, inst
     return None, None, None

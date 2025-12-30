@@ -8,7 +8,7 @@ for name, quad in [
     ("convex", [(0, 0), (1, 1), (0, 1), (1, 0)]),
 ]:
     count = 0
-    for type, struct in list(all_substructures_from_quad(quad)):
+    for type, struct in list(all_structures_from_quad(quad)):
         count += 1
         print("\t", name, count, type, struct)
         fig, ax = plt.subplots()

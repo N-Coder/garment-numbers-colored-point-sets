@@ -5,7 +5,7 @@ import sys
 import click
 from tqdm import tqdm
 
-from garment_nrs.lib import CONVEX_SHAPES, NONCONVEX_SHAPES, find_empty_monochromatic_substructures
+from garment_nrs.lib import CONVEX_SHAPES, NONCONVEX_SHAPES, find_empty_monochromatic_structures
 from garment_nrs.util import *
 
 
@@ -13,10 +13,10 @@ from garment_nrs.util import *
 @click.argument("file", type=click.File("r"))
 @click.option("-o", "--only",
               type=click.Choice([*CONVEX_SHAPES.keys(), *NONCONVEX_SHAPES.keys()], False),
-              multiple=True, help="The types of substructures for which to check, can be specified multiple times.")
+              multiple=True, help="The types of structures for which to check, can be specified multiple times.")
 @click.option("-a", "--add", is_flag=True, default=False, help="Add a random point to the instance before checking.")
 @click.option("-p", "--plot", type=click.Path(writable=True, dir_okay=False), default=None,
-              help="Plot the figure and all non-empty monochromatic substructures to the given file.")
+              help="Plot the figure and all non-empty monochromatic structures to the given file.")
 def main(file, only, add, plot):
     points = load_points_from_csv(file)
     parts = partition_points(points)
@@ -38,7 +38,7 @@ def main(file, only, add, plot):
         tqdm.write(f"Adding point {p}.")
 
     found = 0
-    for s in find_empty_monochromatic_substructures(parts, only):
+    for s in find_empty_monochromatic_structures(parts, only):
         found += 1
         if plot:
             plot_polygon(
@@ -48,7 +48,7 @@ def main(file, only, add, plot):
         with tqdm.external_write_mode():
             json.dump(s, sys.stdout, default=str)
             print()
-    tqdm.write(f"Found {found} empty monochromatic substructures.")
+    tqdm.write(f"Found {found} empty monochromatic structures.")
 
     if plot:
         ax.set_aspect('equal')

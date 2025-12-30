@@ -7,8 +7,8 @@ from shapely import contains_xy, Polygon, Geometry
 from shapely.coords import CoordinateSequence
 
 __all__ = [
-    "is_convex_quad", "is_nonconvex_quad", "all_substructures_from_quad", "contains_any",
-    "find_empty_monochromatic_substructures", "CONVEX_SHAPES", "NONCONVEX_SHAPES",
+    "is_convex_quad", "is_nonconvex_quad", "all_structures_from_quad", "contains_any",
+    "find_empty_monochromatic_structures", "CONVEX_SHAPES", "NONCONVEX_SHAPES",
     "Point", "PointSet", "FilterList", "PartitionedPointSet"
 ]
 
@@ -85,12 +85,13 @@ NONCONVEX_SHAPES = {
 }
 
 
-def all_substructures_from_quad(pts: PointSet, only: FilterList = None) -> Generator[Tuple[str, Geometry]]:
-    """ Build all possible substructures from a (convex or non-convex) set of 4 points.
+def all_structures_from_quad(pts: PointSet, only: FilterList = None) -> Generator[Tuple[str, Geometry]]:
+    """ Build all possible structures from a (convex or non-convex) set of 4 points.
 
-    Yield tuples of (substructure name, shapely polygon).
-    If only is non-empty, only returns substructures whose name is in the list.
+    Yield tuples of (structure name, shapely polygon).
+    If only is non-empty, only returns structures whose name is in the list.
     """
+    assert len(pts) == 4
     hull = Polygon(pts).convex_hull
     shapes = CONVEX_SHAPES if is_convex_quad(hull) else NONCONVEX_SHAPES
     for shape, func in shapes.items():
@@ -116,7 +117,7 @@ def get_all_other_colored_points(parts: PartitionedPointSet, not_color: str):
         return list(itertools.chain(*other_colors))
 
 
-def find_empty_monochromatic_substructures(parts: PartitionedPointSet, only: FilterList = None):
+def find_empty_monochromatic_structures(parts: PartitionedPointSet, only: FilterList = None):
     from tqdm import tqdm
 
     for key in only or []:
@@ -130,9 +131,9 @@ def find_empty_monochromatic_substructures(parts: PartitionedPointSet, only: Fil
         quads = itertools.combinations(same_color, 4)
         quads = tqdm(quads, total=comb(len(same_color), 4), desc=f"Processing 4-tuples for {color}")
         for quad in quads:
-            for kind, region in all_substructures_from_quad(quad, only):
+            for kind, region in all_structures_from_quad(quad, only):
                 if not contains_any(region, other_color):
-                    yield {  # found an empty substructure
+                    yield {  # found an empty structure
                         "color": color,
                         "type": kind,
                         "points": quad,
