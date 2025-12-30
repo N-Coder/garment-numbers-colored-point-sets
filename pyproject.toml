@@ -20,3 +20,4 @@ render = [
 [project.scripts]
 garment = "garment_nrs.main:main"
 garment-render = "garment_nrs.ipe.main:main"
+garment-check = "garment_nrs.check:main"

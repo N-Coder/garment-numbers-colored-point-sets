@@ -9,7 +9,7 @@ RawColoredPointSet: TypeAlias = List[Tuple[Point, str]]
 
 __all__ = [
     "partition_points", "load_points_from_csv", "write_points_to_csv", "plot_polygon", "minimize", "bounding_box",
-    "RawColoredPointSet"
+    "RawColoredPointSet", "random_point"
 ]
 
 
@@ -66,3 +66,14 @@ def bounding_box(points: RawColoredPointSet) -> tuple[float, float, float, float
     min_y = min(p[0][1] for p in points)
     max_y = max(p[0][1] for p in points)
     return min_x, max_x, min_y, max_y
+
+
+def random_point(points: RawColoredPointSet) -> Point:
+    import random
+    min_x, max_x, min_y, max_y = bounding_box(points)
+    delta_x = max_x - min_x
+    delta_y = max_y - min_y
+    return (
+        random.randrange(int(min_x - delta_x / len(points)), int(max_x + delta_x / len(points))),
+        random.randrange(int(min_y - delta_y / len(points)), int(max_y + delta_y / len(points)))
+    )

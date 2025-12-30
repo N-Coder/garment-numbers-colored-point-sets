@@ -32,13 +32,7 @@ def main(file, only, add, plot):
     stats = ", ".join(f"{len(ps)} {c}" for c, ps in parts.items())
     tqdm.write(f"Set contains {len(points)} points ({stats}).")
     if add:
-        min_x, max_x, min_y, max_y = bounding_box(points)
-        delta_x = max_x - min_x
-        delta_y = max_y - min_y
-        p = ((
-                 random.randrange(int(min_x - delta_x / len(points)), int(max_x + delta_x / len(points))),
-                 random.randrange(int(min_y - delta_y / len(points)), int(max_y + delta_y / len(points)))
-             ), random.choice(list(parts.keys())))
+        p = (random_point(points), random.choice(list(parts.keys())))
         points.append(p)
         parts[p[1]].append(p[0])
         tqdm.write(f"Adding point {p}.")

@@ -119,6 +119,10 @@ def get_all_other_colored_points(parts: PartitionedPointSet, not_color: str):
 def find_empty_monochromatic_substructures(parts: PartitionedPointSet, only: FilterList = None):
     from tqdm import tqdm
 
+    for key in only or []:
+        if key not in CONVEX_SHAPES and key not in NONCONVEX_SHAPES:
+            raise KeyError(f"invalid only value {key}")
+
     for color in parts.keys():
         same_color = parts[color]
         other_color = get_all_other_colored_points(parts, color)
