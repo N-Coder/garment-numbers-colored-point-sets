@@ -25,6 +25,9 @@ We study whether all large enough bichromatic point sets contain an empty monoch
 Formally, given a set $S$ of structures, we define the *GuARanteed Monochromatic Empty Not-quite-order Type number* (shorthand: Garment number) of bichromatic point sets, to be the smallest integer $n$, such that every bichromatic point set of size $n$ contains at least one empty monochromatic structure from $S$.
 If we want to say that the Garment number of the set $S=\{\textrm{skirt, bowtie}\}$ is more than 7, we denote this by $\mathcal G(\textrm{skirt}\vee \textrm{bowtie})>7$.
 
+See the [accompanying paper](http://arxiv.org/abs/2603.05339) for more details.
+
+
 # Lower Bounds via Counter Examples
 
 In the `data/` directory, this repository contains example instances that show the following relations:
@@ -34,6 +37,7 @@ In the `data/` directory, this repository contains example instances that show t
 - $\mathcal G(\textrm{necklace})>14$
 - $\mathcal G(\textrm{cravat}\vee \textrm{pant})>22$
 - $\mathcal G(\textrm{cravat}\vee \textrm{skirt})>35$
+- $\mathcal G(\textrm{cravat})>46$ by [Vitaliy Koshelev](https://arxiv.org/abs/0910.2700)
 
 The example instances can be verified using the `garment` python executable available from this repository:
 ```bash
@@ -63,7 +67,7 @@ data/n22_c2_no_mc_cravat_pant.csv with 22 points (11 red, 11 blue) contains no e
 data/n35_c2_no_mc_cravat_skirt.csv with 35 points (17 blue, 18 red) contains no empty ['cravat', 'skirt']
 ```
 
-When the optional `render` dependencies (and thereby `cppyy`) as well as a system-wide [`ipelib`](https://ipe.otfried.org/) is intalled,
+When the optional `render` dependencies (and thereby `cppyy`) as well as a system-wide [`ipelib`](https://ipe.otfried.org/) is installed,
 the instances can also be rendered as ipe figures using the `garment-render` command; see also `render.sh`.
 
 The main function `find_empty_monochromatic_structures` used for enumerating and checking all possible structures 
