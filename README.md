@@ -35,10 +35,11 @@ In the `data/` directory, this repository contains example instances that show t
 - $\mathcal G(\textrm{bowtie}\vee \textrm{skirt})>12$
 - $\mathcal G(\textrm{necklace}\vee \textrm{pant})>12$
 - $\mathcal G(\textrm{necklace})>14$
-- $\mathcal G(\textrm{cravat}\vee \textrm{pant})>22$
-- $\mathcal G(\textrm{cravat}\vee \textrm{skirt})>35$
+- $\mathcal G(\textrm{cravat}\vee \textrm{pant})>22$ by TU Graz students Severin Kann, Jürgen Pammer, and Matthias Platzer
+- $\mathcal G(\textrm{cravat}\vee \textrm{skirt})>35$ by TU Graz students Christian Payer and Karlheinz Wohlmuth
 - $\mathcal G(\textrm{cravat})>46$ by [Vitaliy Koshelev](https://arxiv.org/abs/0910.2700)
 
+# Python Checker
 The example instances can be verified using the `garment` python executable available from this repository:
 ```bash
 pip install git+https://github.com/N-Coder/garment-numbers-colored-point-sets.git
@@ -73,3 +74,35 @@ the instances can also be rendered as ipe figures using the `garment-render` com
 The main function `find_empty_monochromatic_structures` used for enumerating and checking all possible structures 
 is based on roughly 100 lines of Python code and can be found and easily verified in the self-contained `src/garment_nrs/lib.py`.
 The file `viz_test.py` contains some example code visualizing all enumerated structures.
+
+# C++ Checker
+The Python checker uses the [`shapely` library](https://pypi.org/project/shapely/) for geometric primitives, and thus suffers from unavoidable [double-precision issues](https://libgeos.org/usage/faq/#why-does-geosintersectsgeosintersectiona-b-a--false) (although none of our example instances suffers from these issues).
+In the `./cpp/` directory we also provide an alternative C++ implementation that is based on the [`CGAL`](https://github.com/CGAL/cgal) library, supporting exact geometric constructions and predicates of arbitrary precision.
+This implementation also provides the `garment` and `garment-check` executables, which can be built using `cmake`.
+
+## Building
+CGAL (≥ 5), GMP, and MPFR must be installed system-wide.
+```bash
+cmake -B cpp/build -S cpp -DCMAKE_BUILD_TYPE=Release
+cmake --build cpp/build
+```
+The binaries are placed in `cpp/build/`.
+
+## Usage
+The `garment` executable works analogously to its Python counterpart.
+To check the first lower bound:
+```
+$ cpp/build/garment --only bowtie --only pant data/n10_c2_no_mc_bowtie_pant.csv
+Set contains 10 points (5 blue, 5 red).
+Found 0 empty monochromatic structures.
+```
+Each found structure is printed to stdout as a JSON object (one per line):
+```json
+{"color":"red","type":"cravat","points":[[x1,y1],[x2,y2],[x3,y3],[x4,y4]],"shape":[[[x,y],...]]}`
+```
+where `"shape"` is a list of polygon outlines (one per connected component of the region).
+
+To verify all counterexamples in a directory:
+```
+$ cpp/build/garment-check data/
+```
